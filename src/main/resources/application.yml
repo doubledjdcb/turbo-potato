@@ -1,0 +1,103 @@
+app:
+  name: authserver
+  
+org:
+  caringbridge:
+    services:
+      version: 1.0
+      swagger:
+        title: CaringBridge Auth Server Micro-Service
+        description: >
+          This is a multi-line description of
+          the micro service. 
+        uri-base: /references  # Tried using ${app.name} here without success, not sure why
+        termslocation: /terms_of_service.txt
+        contact: contact@caringbridge.org
+        license:
+          type: Caring Bridge proprietary license
+          url: http://www.caringbridge.org/licenses/LICENSE
+
+#Enable only health of spring boot actuator
+endpoints:
+  health:
+    id: health
+  trace:
+    enabled: true
+
+spring:
+  profiles:
+    active: dev
+
+  resources:
+    chain:
+      enabled: false    
+---
+spring:
+  profiles: dev
+
+server:
+  port: 11001
+
+---
+spring:
+  data:
+    mongodb:
+      database: CB
+      host: www.caringbridge.dev
+      port: 27017
+
+  datasource:
+#    name: mysql
+    driver-class-name: com.mysql.jdbc.Driver    
+    url: jdbc:mysql://localhost:3306/oauth?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    username: root
+    test-while-idle: true
+    validation-query: SELECT 1
+#  jpa:
+#    show-sql: true
+#    generate-ddl: false
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+#        ddl-auto: validate      
+#    database: mysql
+endpoints:
+  beans:
+    enabled: false
+  configprops:
+    enabled: false
+  docs:
+    enabled: false
+  dump:
+    enabled: false
+  env:
+    enabled: false
+  flyway:
+    enabled: false
+  health:
+    id: health
+  info:
+    enabled: false
+  jmx:
+    enabled: false
+  jolokia:
+    enabled: false
+  liquibase:
+    enabled: false
+  logfile:
+    enabled: false
+  mappings:
+    enabled: false
+  metrics:
+    enabled: false
+  shutdown:
+    enabled: false
+  trace:
+    enabled: false
+server:
+  port: 11001
+  undertow:
+    accesslog:
+      dir: /var/log/microservices/${app.name}
+      enabled: false
+      pattern: '%h %l %u %t "%r" %s %b %{i,X-Request-Id} %D'
