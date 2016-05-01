@@ -56,3 +56,4 @@ local.properties
 #Any log files result of the application run
 *.log
 /.nb-gradle/
+/.apt_generated/
